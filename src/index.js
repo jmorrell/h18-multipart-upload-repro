@@ -1,14 +1,19 @@
 #!/usr/bin/env node
 
 const http = require('http')
-const express = require('express');
+const multiparty = require('multiparty');
 
 const PORT = process.env.PORT || 5000
 
 const server = http.createServer((req, res) => {
   if (req.url === '/upload' && req.method === 'POST') {
-    res.writeHead(400);
-    res.end('App must be updated. App version is required');
+    const form = new multiparty.Form();
+
+    form.parse(req, (err, fields, files) => {
+      res.writeHead(400);
+      res.end('App must be updated. App version is required');
+    });
+
     return;
   }
 
